@@ -1,0 +1,37 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.3.32804.467
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gym.Shared", "Gym.Shared\Gym.Shared.csproj", "{F7AF36B4-878F-4870-A215-B240A63C085C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gym.API", "Gym.API\Gym.API.csproj", "{68CA285B-72DE-42EF-81BD-9798619CF0F8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gym.Web", "Gym.Web\Gym.Web.csproj", "{BED03100-56A5-42B4-AB0E-42DE93A84E4D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F7AF36B4-878F-4870-A215-B240A63C085C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F7AF36B4-878F-4870-A215-B240A63C085C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F7AF36B4-878F-4870-A215-B240A63C085C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F7AF36B4-878F-4870-A215-B240A63C085C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{68CA285B-72DE-42EF-81BD-9798619CF0F8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{68CA285B-72DE-42EF-81BD-9798619CF0F8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{68CA285B-72DE-42EF-81BD-9798619CF0F8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{68CA285B-72DE-42EF-81BD-9798619CF0F8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BED03100-56A5-42B4-AB0E-42DE93A84E4D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BED03100-56A5-42B4-AB0E-42DE93A84E4D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BED03100-56A5-42B4-AB0E-42DE93A84E4D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BED03100-56A5-42B4-AB0E-42DE93A84E4D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {2F288F92-81D3-485F-BCD3-800FB4A2DF07}
+	EndGlobalSection
+EndGlobal
