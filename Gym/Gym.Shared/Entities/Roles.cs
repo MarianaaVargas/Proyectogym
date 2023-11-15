@@ -12,17 +12,17 @@ namespace Gym.Shared.Entidades
     {
 
      
-        [MaxLength(45, ErrorMessage = "El campo no debe tener mas de 10 caracteres")]
+        [MaxLength(10, ErrorMessage = "El campo no debe tener mas de 10 caracteres")]
         [Required(ErrorMessage = "El campo es obligatorio")]
         public int IdRol { get; set; }
 
         [Display(Name = "Estado del usuario")]
-        [MaxLength(45, ErrorMessage = "El campo no debe tener mas de 20 caracteres")]
-        public string Estado { get; set; }
+        [MaxLength(20, ErrorMessage = "El campo no debe tener mas de 20 caracteres")]
+        public string? Estado { get; set; }
 
         [Display(Name = "Rol del usuario")]
-        [MaxLength(45, ErrorMessage = "El campo no debe tener mas de 20 caracteres")]
-        public string Rol { get; set; }
+        [MaxLength(20, ErrorMessage = "El campo no debe tener mas de 20 caracteres")]
+        public string? Rol { get; set; }
 
 
 

@@ -11,15 +11,15 @@ namespace Gym.Shared.Entidades
 
     {
 
-        [MaxLength(45, ErrorMessage = "El campo no debe tener mas de 10 caracteres")]
+        [MaxLength(10, ErrorMessage = "El campo no debe tener mas de 10 caracteres")]
         [Required(ErrorMessage = "El campo es obligatorio")]
         public int Id { get; set; }
 
-        [MaxLength(45, ErrorMessage = "El campo no debe tener mas de 10 caracteres")]
+        [MaxLength(10, ErrorMessage = "El campo no debe tener mas de 10 caracteres")]
         [Required(ErrorMessage = "El campo es obligatorio")]
         public int Id_Registro { get; set; }
 
-        [MaxLength(45, ErrorMessage = "El campo no debe tener mas de 10 caracteres")]
+        [MaxLength(10, ErrorMessage = "El campo no debe tener mas de 10 caracteres")]
         [Required(ErrorMessage = "El campo es obligatorio")]
         public int Id_Actividad { get; set; }
     }
