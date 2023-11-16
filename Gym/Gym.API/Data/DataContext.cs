@@ -6,6 +6,9 @@ namespace Gym.API.Data
 {
     public class DataContext:DbContext
     {
+        public DataContext() : base()
+        {
+        }
         public DataContext(DbContextOptions<DataContext> options) : base(options)
         {
 
@@ -22,6 +25,14 @@ namespace Gym.API.Data
         public DbSet <Registros> registros { get; set; }
         public DbSet <Roles> Roles  { get; set; }
         public DbSet <Usuarios> usuarios { get; set; }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder options)
+        {
+            if (!options.IsConfigured)
+            {
+                options.UseSqlServer("A FALLBACK CONNECTION STRING");
+            }
+        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
