@@ -43,7 +43,7 @@ namespace Gym.API.Controllers
         {
             _context.Add(actividades);
             await _context.SaveChangesAsync();
-            return Ok();
+            return Ok(actividades);
 
         }
 

@@ -11,15 +11,30 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddDbContext<DataContext>(x => x.UseSqlServer("name=DefaultConnection"));
+builder.Services.AddTransient<SeeDb>();
 
 var app = builder.Build();
+SeeData(app);
 
+void SeeData(WebApplication app)
+{
+    IServiceScopeFactory? scopeFactory = app.Services.GetService<IServiceScopeFactory>();
+
+    using (IServiceScope? scope = scopeFactory!.CreateScope())
+    {
+        SeeDb? service = scope.ServiceProvider.GetService<SeeDb>();
+        object valu = service!.SeedAsync();
+    }
+}
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
+  
 }
+
+app.UseSwagger();
+
+app.UseSwaggerUI();
 
 app.UseHttpsRedirection();
 
@@ -27,15 +42,11 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-app.UseCors(x => x.AllowAnyMethod().AllowAnyHeader()
-.SetIsOriginAllowed(origin=>true).AllowCredentials());
+app.UseCors(x => x
+.AllowAnyMethod().
+AllowAnyHeader().
+SetIsOriginAllowed(origin=>true).
+AllowCredentials());
 
 app.Run();
-
-
-
-
-
-
-
 
