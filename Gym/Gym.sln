@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.3.32804.467
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gym.Shared", "Gym.Shared\Gym.Shared.csproj", "{F7AF36B4-878F-4870-A215-B240A63C085C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gym.Shared", "Gym.Shared\Gym.Shared.csproj", "{F7AF36B4-878F-4870-A215-B240A63C085C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gym.API", "Gym.API\Gym.API.csproj", "{68CA285B-72DE-42EF-81BD-9798619CF0F8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gym.API", "Gym.API\Gym.API.csproj", "{68CA285B-72DE-42EF-81BD-9798619CF0F8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gym.Web", "Gym.Web\Gym.Web.csproj", "{BED03100-56A5-42B4-AB0E-42DE93A84E4D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gym.Web", "Gym.Web\Gym.Web.csproj", "{BED03100-56A5-42B4-AB0E-42DE93A84E4D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
