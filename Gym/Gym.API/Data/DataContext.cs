@@ -46,7 +46,7 @@ namespace Gym.API.Data
             modelBuilder.Entity<PlanEntrenamiento>().HasKey(x => x.Id_Plan);
             modelBuilder.Entity<Realizar>().HasKey(x => x.Id);
             modelBuilder.Entity<Registros>().HasKey(x => x.Id_Registro);
-            modelBuilder.Entity<Roles>().HasKey(x => x.IdRol);
+            modelBuilder.Entity<Roles>().HasKey(x => x.Id_Rol);
             modelBuilder.Entity<Usuarios>().HasKey(x => x.Id_Usuarios);
 
         }
