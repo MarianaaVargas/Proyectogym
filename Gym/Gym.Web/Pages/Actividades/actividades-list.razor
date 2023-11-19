@@ -1,0 +1,98 @@
+﻿@page "/activities"
+
+@inject IRepository repository
+
+<h3>Lista de Actividades</h3>
+
+<div class="mb-3">
+    <a class="btn btn-primary" href="/activities/create">Crear actividad</a>
+</div>
+
+
+
+<GenericList MyList="Activities">
+
+    <Body>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Actividad</th>
+                    <th></th>
+
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var activity in Activities!)
+                {
+                    <tr>
+                        <td>
+                            @activity.Id_Actividad
+                        </td>
+                        <td>
+                            <a class="btn btn-warning">Editar</a>
+                            <button class="btn btn-danger">Borrar</button>
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td>
+                            @activity.Nombre
+                        </td>
+                        <td>
+                            <a class="btn btn-warning">Editar</a>
+                            <button class="btn btn-danger">Borrar</button>
+                        </td>
+
+                    </tr>
+
+                    <tr>
+                        <td>
+                            @activity.Modalidad
+                        </td>
+                        <td>
+                            <a class="btn btn-warning">Editar</a>
+                            <button class="btn btn-danger">Borrar</button>
+                        </td>
+
+                    </tr>
+
+                    <tr>
+                        <td>
+                            @activity.Complejidad
+                        </td>
+                        <td>
+                            <a class="btn btn-warning">Editar</a>
+                            <button class="btn btn-danger">Borrar</button>
+                        </td>
+
+                    </tr>
+
+                    <tr>
+                        <td>
+                            @activity.Descripcion
+                        </td>
+                        <td>
+                            <a class="btn btn-warning">Editar</a>
+                            <button class="btn btn-danger">Borrar</button>
+                        </td>
+
+                    </tr>
+
+                    <tr>
+                        <td>
+                            @activity.Observaciones
+                        </td>
+                        <td>
+                            <a class="btn btn-warning">Editar</a>
+                            <button class="btn btn-danger">Borrar</button>
+                        </td>
+
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+    </Body>
+
+</GenericList>
+

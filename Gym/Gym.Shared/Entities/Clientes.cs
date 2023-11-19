@@ -1,23 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Gym.Shared.Entidades
 {
     public class Clientes
     {
 
-        [MaxLength(10, ErrorMessage = "El campo no debe tener mas de 10 caracteres")]
-        [Required(ErrorMessage = "El campo es obligatorio")]
         public int Id_Cliente { get; set; }
 
-        [MaxLength(10, ErrorMessage = "El campo no debe tener mas de 10 caracteres")]
-        [Required(ErrorMessage = "El campo es obligatorio")]
-        public int Id_Rol { get; set; }
-        
+        public int Id_Usuario { get; set; }
+
+        public Usuarios Usuario { get; set; }
+
         [Display(Name = "Nombre del cliente")]
         [MaxLength(45, ErrorMessage = "El campo no debe tener mas de 45 caracteres")]
         public string? Nombre { get; set; }
@@ -45,12 +38,10 @@ namespace Gym.Shared.Entidades
         [MaxLength(20, ErrorMessage = "El campo no debe tener mas de 20 caracteres")]
         public int Telefono { get; set; }
 
-        [Display(Name = "Email del cliente")]
-        [MaxLength(40, ErrorMessage = "El campo no debe tener mas de 40 caracteres")]
-        public string? Email { get; set; }
-
         [MaxLength(20, ErrorMessage = "El campo no debe tener mas de 20 caracteres")]
-        public int NumCuenta { get; set; }  
+        public int NumCuenta { get; set; }
+
+        public PlanEntrenamiento? plan {  get; set; }
 
     }
 }

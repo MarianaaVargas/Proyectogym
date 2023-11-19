@@ -11,14 +11,23 @@ namespace Gym.Shared.Entidades
     {
         [MaxLength(10, ErrorMessage = "El campo no debe tener mas de 10 caracteres")]
         [Required(ErrorMessage = "El campo es obligatorio")]
-        public int Id_Usuarios { get; set; }
+        public int Id_Usuario { get; set; }
 
-        [MaxLength(10, ErrorMessage = "El campo no debe tener mas de 10 caracteres")]
-        public string? Contraseña { get; set; }
-
-        [MaxLength(10, ErrorMessage = "El campo no debe tener mas de 10 caracteres")]
+        [Display(Name = "Estado del usuario")]
         [Required(ErrorMessage = "El campo es obligatorio")]
-        public int Id_Rol {get; set; }
+        [MaxLength(20, ErrorMessage = "El campo no debe tener mas de 20 caracteres")]
+        public int Estado { get; set; }
+
+        [Display(Name = "Email del cliente")]
+        [MaxLength(40, ErrorMessage = "El campo no debe tener mas de 40 caracteres")]
+        public string? Email { get; set; }
+
+        [MaxLength(10, ErrorMessage = "El campo no debe tener mas de 10 caracteres")]
+        public string? Password { get; set; }
+
+        public ICollection<RolesUsuario> RolesUsuario { get; set; }
+
+        public Clientes Cliente { get; set; }
 
 
     }

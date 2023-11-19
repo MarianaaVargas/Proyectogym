@@ -29,7 +29,7 @@ namespace Gym.API.Controllers
 
         public async Task<IActionResult> Get(int id)
         {
-            var Usuarios = await _context.usuarios.FirstOrDefaultAsync(x => x.Id_Usuarios == id);
+            var Usuarios = await _context.usuarios.FirstOrDefaultAsync(x => x.Id_Usuario == id);
             if (Usuarios == null)
             {
                 return NotFound();
@@ -60,7 +60,7 @@ namespace Gym.API.Controllers
         {
 
             var filaafectada = await _context.usuarios
-                .Where(c => c.Id_Usuarios == id)
+                .Where(c => c.Id_Usuario == id)
                 .ExecuteDeleteAsync();
 
             if (filaafectada == 0)

@@ -8,7 +8,7 @@ using System.Xml.Linq;
 
 namespace Gym.Shared.Entidades
 {
-    public class Roles
+    public class Rol
     {
 
      
@@ -16,13 +16,13 @@ namespace Gym.Shared.Entidades
         [Required(ErrorMessage = "El campo es obligatorio")]
         public int Id_Rol { get; set; }
 
-        [Display(Name = "Estado del usuario")]
-        [MaxLength(20, ErrorMessage = "El campo no debe tener mas de 20 caracteres")]
-        public string? Estado { get; set; }
 
         [Display(Name = "Rol del usuario")]
+        [Required(ErrorMessage = "El campo es obligatorio")]
         [MaxLength(20, ErrorMessage = "El campo no debe tener mas de 20 caracteres")]
-        public string? Rol { get; set; }
+        public string Nombre { get; set; }
+
+        public ICollection<RolesUsuario> RolesUsuario { get; set; }
 
 
 
