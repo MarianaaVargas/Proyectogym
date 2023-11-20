@@ -13,15 +13,15 @@ namespace Gym.Shared.Entidades
 
         [Display(Name = "Nombre del cliente")]
         [MaxLength(45, ErrorMessage = "El campo no debe tener mas de 45 caracteres")]
-        public string? Nombre { get; set; }
+        public string Nombre { get; set; }
 
         [Display(Name = "Primer apellido del cliente")]
         [MaxLength(45, ErrorMessage = "El campo no debe tener mas de 45 caracteres")]
-        public string? Apellido1 { get; set; }
+        public string Apellido1 { get; set; }
 
         [Display(Name = "Segundo apellido del cliente")]
         [MaxLength(45, ErrorMessage = "El campo no debe tener mas de 45 caracteres")]
-        public string? Apellido2 { get; set; }
+        public string Apellido2 { get; set; }
         [Display(Name = "Identificacion del cliente")]
         [MaxLength(20, ErrorMessage = "El campo no debe tener mas de 20 caracteres")]
         public int Identificacion { get; set; }
@@ -41,7 +41,13 @@ namespace Gym.Shared.Entidades
         [MaxLength(20, ErrorMessage = "El campo no debe tener mas de 20 caracteres")]
         public int NumCuenta { get; set; }
 
-        public PlanEntrenamiento? plan {  get; set; }
+        public PlanEntrenamiento plan {  get; set; }
+        public Inscribir inscribir { get; set; }
+        public FichaMedica fichaMedica { get; set; }
+        public List <Registros> registros { get; set; }
+        public List <Pagos> pagos { get; set; }
+
+
 
     }
 }

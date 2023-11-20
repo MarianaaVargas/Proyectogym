@@ -20,14 +20,13 @@ namespace Gym.Shared.Entidades
 
         [Display(Name = "Email del cliente")]
         [MaxLength(40, ErrorMessage = "El campo no debe tener mas de 40 caracteres")]
-        public string? Email { get; set; }
+        public string Email { get; set; }
 
         [MaxLength(10, ErrorMessage = "El campo no debe tener mas de 10 caracteres")]
-        public string? Password { get; set; }
+        public string Password { get; set; }
 
-        public ICollection<RolesUsuario> RolesUsuario { get; set; }
-
-        public Clientes Cliente { get; set; }
+       public int Id_rol {  get; set; }
+       public Roles rol { get; set; }
 
 
     }

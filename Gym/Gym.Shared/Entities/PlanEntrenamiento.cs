@@ -18,6 +18,8 @@ namespace Gym.Shared.Entidades
         [Required(ErrorMessage = "El campo es obligatorio")]
         public int Id_Cliente { get; set; }
 
+        public Clientes Clientes { get; set; }
+
         [MaxLength(10, ErrorMessage = "El campo no debe tener mas de 10 caracteres")]
         [Required(ErrorMessage = "El campo es obligatorio")]
         public int Id_Monitor { get; set; }
@@ -32,16 +34,16 @@ namespace Gym.Shared.Entidades
 
         [Display(Name = "Observaciones sobre el plan de entrenamiento")]
         [MaxLength(100, ErrorMessage = "El campo no debe tener mas de 100 caracteres")]
-        public string? Observaciones { get; set; }
+        public string Observaciones { get; set; }
 
        
         [Display(Name = "Fecha inicio")]
         [MaxLength(45, ErrorMessage = "El campo no debe tener mas de 45 caracteres")]
-        public string? Fecha_Inico { get; set; }
+        public string Fecha_Inico { get; set; }
 
         [Display(Name = "Fecha fin")]
         [MaxLength(45, ErrorMessage = "El campo no debe tener mas de 45 caracteres")]
-        public string? Fecha_Fin { get; set; }
+        public string Fecha_Fin { get; set; }
 
         
     }

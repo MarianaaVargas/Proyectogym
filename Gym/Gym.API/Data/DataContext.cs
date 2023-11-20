@@ -1,5 +1,7 @@
 ﻿using Gym.Shared.Entidades;
+using Gym.Shared.Entities;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Win32;
 
 namespace Gym.API.Data
 
@@ -15,16 +17,18 @@ namespace Gym.API.Data
         }
 
         public DbSet<Actividades> Actividades { get; set; }
-        public DbSet <RolesUsuario> rolesUsuario { get; set; }
         public DbSet <Clientes> Clientes { get; set; }
+        public DbSet <Monitores> Monitores { get; set; }
         public DbSet <FichaMedica> FichaMedica { get; set; }
         public DbSet <Inscribir> inscribir { get; set; }
         public DbSet <Pagos> Pagos { get; set; }
         public DbSet <PlanEntrenamiento> planEntrenamiento { get; set; }
         public DbSet <Realizar> realizar { get; set; }
         public DbSet <Registros> registros { get; set; }
-        public DbSet <Rol> Rol { get; set; }
+        public DbSet <Roles> Rol { get; set; }
         public DbSet <Usuarios> usuarios { get; set; }
+
+        
 
         protected override void OnConfiguring(DbContextOptionsBuilder options)
         {
@@ -39,26 +43,68 @@ namespace Gym.API.Data
             base.OnModelCreating(modelBuilder);
             modelBuilder.Entity<Actividades>().HasKey(x => x.Id_Actividad);
             modelBuilder.Entity<Clientes>().HasKey(x => x.Id_Cliente);
+            modelBuilder.Entity<Monitores>().HasKey(x => x.Id_Monitor);
             modelBuilder.Entity<Clientes>().Property(f => f.Id_Cliente).ValueGeneratedOnAdd();
             modelBuilder.Entity<FichaMedica>().HasKey(x => x.Id_Ficha);
             modelBuilder.Entity<Inscribir>().HasKey(x => x.Id);
             modelBuilder.Entity<Pagos>().HasKey(x => x.Id_Pagos);
             modelBuilder.Entity<PlanEntrenamiento>().HasKey(x => x.Id_Plan);
-
             modelBuilder.Entity<Realizar>().HasKey(x => x.Id);
             modelBuilder.Entity<Registros>().HasKey(x => x.Id_Registro);
-            modelBuilder.Entity<Rol>().HasKey(x => x.Id_Rol);
-
+            modelBuilder.Entity<Roles>().HasKey(x => x.Id_Rol);
             modelBuilder.Entity<Usuarios>().HasKey(x => x.Id_Usuario);
             modelBuilder.Entity<Usuarios>().Property(f => f.Id_Usuario).ValueGeneratedOnAdd();
-
-            modelBuilder.Entity<RolesUsuario>().HasKey(p => p.id);
-            modelBuilder.Entity<RolesUsuario>().Property(f => f.id).ValueGeneratedOnAdd();
+            
 
             //RELACIONES
-            modelBuilder.Entity<RolesUsuario>().HasOne(ur => ur.usuario).WithMany(u => u.RolesUsuario).HasForeignKey(ur => ur.usuario_id);
-            modelBuilder.Entity<RolesUsuario>().HasOne(ur => ur.rol).WithMany(r => r.RolesUsuario).HasForeignKey(ur => ur.Id_Rol);
-            modelBuilder.Entity<Usuarios>().HasOne(u => u.Cliente).WithOne(c => c.Usuario).HasForeignKey<Clientes>(c => c.Id_Usuario);
+            
+            
+            modelBuilder.Entity<Clientes>()
+            .HasOne(c => c.fichaMedica)
+            .WithOne(fm => fm.clientes)
+            .HasForeignKey<FichaMedica>(fm => fm.Id_Cliente);
+
+            modelBuilder.Entity<Clientes>()
+           .HasOne(c => c.plan)
+           .WithOne(pe => pe.Clientes)
+           .HasForeignKey<PlanEntrenamiento>(pe => pe.Id_Cliente);
+
+
+            modelBuilder.Entity<Clientes>()
+           .HasOne(c => c.inscribir)
+           .WithOne(i => i.clientes)
+           .HasForeignKey<Inscribir>(i => i.Id_Cliente);
+
+            modelBuilder.Entity<Monitores>()
+            .HasMany(m => m.actividades)
+            .WithOne(e => e.monitores)
+            .HasForeignKey(e => e.Id_Monitor);
+
+            modelBuilder.Entity<Clientes>()
+           .HasMany(c => c.registros)
+           .WithOne(r => r.clientes)
+           .HasForeignKey(r => r.Id_Cliente);
+
+            modelBuilder.Entity<Clientes>()
+          .HasMany(c => c.pagos)
+          .WithOne(p => p.clientes)
+          .HasForeignKey(p => p.Id_Cliente);
+
+            modelBuilder.Entity<Realizar>()
+           .HasMany(r => r.registros)
+           .WithOne(reg => reg.realizar)
+           .HasForeignKey(reg => reg.Id_Realizar);
+
+          
+            modelBuilder.Entity<Registros>()
+                .HasMany(reg => reg.actividades)
+                .WithOne(act => act.registros)
+                .HasForeignKey(act => act.Id_Registro);
+
+            modelBuilder.Entity<Roles>()
+           .HasMany(r => r.usuarios)
+           .WithOne(u => u.rol)
+           .HasForeignKey(u => u.Id_rol);
         }
                   
     }

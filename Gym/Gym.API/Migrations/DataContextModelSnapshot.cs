@@ -31,10 +31,12 @@ namespace Gym.API.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id_Actividad"));
 
                     b.Property<string>("Complejidad")
+                        .IsRequired()
                         .HasMaxLength(45)
                         .HasColumnType("nvarchar(45)");
 
                     b.Property<string>("Descripcion")
+                        .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
@@ -42,19 +44,29 @@ namespace Gym.API.Migrations
                         .HasMaxLength(10)
                         .HasColumnType("int");
 
+                    b.Property<int>("Id_Registro")
+                        .HasColumnType("int");
+
                     b.Property<string>("Modalidad")
+                        .IsRequired()
                         .HasMaxLength(45)
                         .HasColumnType("nvarchar(45)");
 
                     b.Property<string>("Nombre")
+                        .IsRequired()
                         .HasMaxLength(45)
                         .HasColumnType("nvarchar(45)");
 
                     b.Property<string>("Observaciones")
+                        .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
                     b.HasKey("Id_Actividad");
+
+                    b.HasIndex("Id_Monitor");
+
+                    b.HasIndex("Id_Registro");
 
                     b.ToTable("Actividades");
                 });
@@ -63,16 +75,17 @@ namespace Gym.API.Migrations
                 {
                     b.Property<int>("Id_Cliente")
                         .ValueGeneratedOnAdd()
-                        .HasMaxLength(10)
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id_Cliente"));
 
                     b.Property<string>("Apellido1")
+                        .IsRequired()
                         .HasMaxLength(45)
                         .HasColumnType("nvarchar(45)");
 
                     b.Property<string>("Apellido2")
+                        .IsRequired()
                         .HasMaxLength(45)
                         .HasColumnType("nvarchar(45)");
 
@@ -84,12 +97,7 @@ namespace Gym.API.Migrations
                         .HasMaxLength(30)
                         .HasColumnType("nvarchar(30)");
 
-                    b.Property<string>("Email")
-                        .HasMaxLength(40)
-                        .HasColumnType("nvarchar(40)");
-
-                    b.Property<int>("Id_Rol")
-                        .HasMaxLength(10)
+                    b.Property<int>("Id_Usuario")
                         .HasColumnType("int");
 
                     b.Property<int>("Identificacion")
@@ -97,6 +105,7 @@ namespace Gym.API.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Nombre")
+                        .IsRequired()
                         .HasMaxLength(45)
                         .HasColumnType("nvarchar(45)");
 
@@ -108,7 +117,12 @@ namespace Gym.API.Migrations
                         .HasMaxLength(20)
                         .HasColumnType("int");
 
+                    b.Property<int>("UsuarioId_Usuario")
+                        .HasColumnType("int");
+
                     b.HasKey("Id_Cliente");
+
+                    b.HasIndex("UsuarioId_Usuario");
 
                     b.ToTable("Clientes");
                 });
@@ -123,14 +137,17 @@ namespace Gym.API.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id_Ficha"));
 
                     b.Property<string>("Altura")
+                        .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("Condicion")
+                        .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("IMC")
+                        .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
@@ -139,14 +156,19 @@ namespace Gym.API.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Observaciones")
+                        .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("Peso")
+                        .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
                     b.HasKey("Id_Ficha");
+
+                    b.HasIndex("Id_Cliente")
+                        .IsUnique();
 
                     b.ToTable("FichaMedica");
                 });
@@ -170,57 +192,10 @@ namespace Gym.API.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("Id_Cliente")
+                        .IsUnique();
+
                     b.ToTable("inscribir");
-                });
-
-            modelBuilder.Entity("Gym.Shared.Entidades.Monitores", b =>
-                {
-                    b.Property<int>("Id_Monitor")
-                        .ValueGeneratedOnAdd()
-                        .HasMaxLength(10)
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id_Monitor"));
-
-                    b.Property<string>("Apellido1")
-                        .HasMaxLength(45)
-                        .HasColumnType("nvarchar(45)");
-
-                    b.Property<string>("Apellido2")
-                        .HasMaxLength(45)
-                        .HasColumnType("nvarchar(45)");
-
-                    b.Property<string>("Ciudad")
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
-
-                    b.Property<string>("Direccion")
-                        .HasMaxLength(30)
-                        .HasColumnType("nvarchar(30)");
-
-                    b.Property<string>("Email")
-                        .HasMaxLength(45)
-                        .HasColumnType("nvarchar(45)");
-
-                    b.Property<int>("Id_Rol")
-                        .HasMaxLength(10)
-                        .HasColumnType("int");
-
-                    b.Property<int>("Identificacion")
-                        .HasMaxLength(20)
-                        .HasColumnType("int");
-
-                    b.Property<string>("Nombre")
-                        .HasMaxLength(45)
-                        .HasColumnType("nvarchar(45)");
-
-                    b.Property<int>("Telefono")
-                        .HasMaxLength(20)
-                        .HasColumnType("int");
-
-                    b.HasKey("Id_Monitor");
-
-                    b.ToTable("Monitores");
                 });
 
             modelBuilder.Entity("Gym.Shared.Entidades.Pagos", b =>
@@ -233,6 +208,7 @@ namespace Gym.API.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id_Pagos"));
 
                     b.Property<string>("Fecha")
+                        .IsRequired()
                         .HasMaxLength(45)
                         .HasColumnType("nvarchar(45)");
 
@@ -254,6 +230,8 @@ namespace Gym.API.Migrations
 
                     b.HasKey("Id_Pagos");
 
+                    b.HasIndex("Id_Cliente");
+
                     b.ToTable("Pagos");
                 });
 
@@ -267,10 +245,12 @@ namespace Gym.API.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id_Plan"));
 
                     b.Property<string>("Fecha_Fin")
+                        .IsRequired()
                         .HasMaxLength(45)
                         .HasColumnType("nvarchar(45)");
 
                     b.Property<string>("Fecha_Inico")
+                        .IsRequired()
                         .HasMaxLength(45)
                         .HasColumnType("nvarchar(45)");
 
@@ -283,6 +263,7 @@ namespace Gym.API.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Observaciones")
+                        .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
@@ -296,6 +277,9 @@ namespace Gym.API.Migrations
 
                     b.HasKey("Id_Plan");
 
+                    b.HasIndex("Id_Cliente")
+                        .IsUnique();
+
                     b.ToTable("planEntrenamiento");
                 });
 
@@ -307,6 +291,11 @@ namespace Gym.API.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Fecha")
+                        .IsRequired()
+                        .HasMaxLength(45)
+                        .HasColumnType("nvarchar(45)");
 
                     b.Property<int>("Id_Actividad")
                         .HasMaxLength(10)
@@ -331,10 +320,12 @@ namespace Gym.API.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id_Registro"));
 
                     b.Property<string>("Hora_Entrada")
+                        .IsRequired()
                         .HasMaxLength(45)
                         .HasColumnType("nvarchar(45)");
 
                     b.Property<string>("Hora_Salida")
+                        .IsRequired()
                         .HasMaxLength(45)
                         .HasColumnType("nvarchar(45)");
 
@@ -342,7 +333,14 @@ namespace Gym.API.Migrations
                         .HasMaxLength(10)
                         .HasColumnType("int");
 
+                    b.Property<int>("Id_Realizar")
+                        .HasColumnType("int");
+
                     b.HasKey("Id_Registro");
+
+                    b.HasIndex("Id_Cliente");
+
+                    b.HasIndex("Id_Realizar");
 
                     b.ToTable("registros");
                 });
@@ -356,39 +354,233 @@ namespace Gym.API.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id_Rol"));
 
-                    b.Property<string>("Estado")
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
-
-                    b.Property<string>("Rol")
+                    b.Property<string>("Nombre")
+                        .IsRequired()
                         .HasMaxLength(20)
                         .HasColumnType("nvarchar(20)");
 
                     b.HasKey("Id_Rol");
 
-                    b.ToTable("Roles");
+                    b.ToTable("Rol");
                 });
 
             modelBuilder.Entity("Gym.Shared.Entidades.Usuarios", b =>
                 {
-                    b.Property<int>("Id_Usuarios")
+                    b.Property<int>("Id_Usuario")
                         .ValueGeneratedOnAdd()
                         .HasMaxLength(10)
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id_Usuarios"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id_Usuario"));
 
-                    b.Property<string>("Contraseña")
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasMaxLength(40)
+                        .HasColumnType("nvarchar(40)");
+
+                    b.Property<int>("Estado")
+                        .HasMaxLength(20)
+                        .HasColumnType("int");
+
+                    b.Property<int>("Id_rol")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Password")
+                        .IsRequired()
                         .HasMaxLength(10)
                         .HasColumnType("nvarchar(10)");
 
-                    b.Property<int>("Id_Rol")
-                        .HasMaxLength(10)
-                        .HasColumnType("int");
+                    b.HasKey("Id_Usuario");
 
-                    b.HasKey("Id_Usuarios");
+                    b.HasIndex("Id_rol");
 
                     b.ToTable("usuarios");
+                });
+
+            modelBuilder.Entity("Gym.Shared.Entities.Monitores", b =>
+                {
+                    b.Property<int>("Id_Monitor")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id_Monitor"));
+
+                    b.Property<string>("Apellido1")
+                        .IsRequired()
+                        .HasMaxLength(45)
+                        .HasColumnType("nvarchar(45)");
+
+                    b.Property<string>("Apellido2")
+                        .IsRequired()
+                        .HasMaxLength(45)
+                        .HasColumnType("nvarchar(45)");
+
+                    b.Property<string>("Ciudad")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
+
+                    b.Property<string>("Direccion")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
+
+                    b.Property<int>("Identificacion")
+                        .HasMaxLength(20)
+                        .HasColumnType("int");
+
+                    b.Property<string>("Nombre")
+                        .IsRequired()
+                        .HasMaxLength(45)
+                        .HasColumnType("nvarchar(45)");
+
+                    b.Property<int>("Telefono")
+                        .HasMaxLength(20)
+                        .HasColumnType("int");
+
+                    b.HasKey("Id_Monitor");
+
+                    b.ToTable("Monitores");
+                });
+
+            modelBuilder.Entity("Gym.Shared.Entidades.Actividades", b =>
+                {
+                    b.HasOne("Gym.Shared.Entities.Monitores", "monitores")
+                        .WithMany("actividades")
+                        .HasForeignKey("Id_Monitor")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Gym.Shared.Entidades.Registros", "registros")
+                        .WithMany("actividades")
+                        .HasForeignKey("Id_Registro")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("monitores");
+
+                    b.Navigation("registros");
+                });
+
+            modelBuilder.Entity("Gym.Shared.Entidades.Clientes", b =>
+                {
+                    b.HasOne("Gym.Shared.Entidades.Usuarios", "Usuario")
+                        .WithMany()
+                        .HasForeignKey("UsuarioId_Usuario")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Usuario");
+                });
+
+            modelBuilder.Entity("Gym.Shared.Entidades.FichaMedica", b =>
+                {
+                    b.HasOne("Gym.Shared.Entidades.Clientes", "clientes")
+                        .WithOne("fichaMedica")
+                        .HasForeignKey("Gym.Shared.Entidades.FichaMedica", "Id_Cliente")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("clientes");
+                });
+
+            modelBuilder.Entity("Gym.Shared.Entidades.Inscribir", b =>
+                {
+                    b.HasOne("Gym.Shared.Entidades.Clientes", "clientes")
+                        .WithOne("inscribir")
+                        .HasForeignKey("Gym.Shared.Entidades.Inscribir", "Id_Cliente")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("clientes");
+                });
+
+            modelBuilder.Entity("Gym.Shared.Entidades.Pagos", b =>
+                {
+                    b.HasOne("Gym.Shared.Entidades.Clientes", "clientes")
+                        .WithMany("pagos")
+                        .HasForeignKey("Id_Cliente")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("clientes");
+                });
+
+            modelBuilder.Entity("Gym.Shared.Entidades.PlanEntrenamiento", b =>
+                {
+                    b.HasOne("Gym.Shared.Entidades.Clientes", "Clientes")
+                        .WithOne("plan")
+                        .HasForeignKey("Gym.Shared.Entidades.PlanEntrenamiento", "Id_Cliente")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Clientes");
+                });
+
+            modelBuilder.Entity("Gym.Shared.Entidades.Registros", b =>
+                {
+                    b.HasOne("Gym.Shared.Entidades.Clientes", "clientes")
+                        .WithMany("registros")
+                        .HasForeignKey("Id_Cliente")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Gym.Shared.Entidades.Realizar", "realizar")
+                        .WithMany("registros")
+                        .HasForeignKey("Id_Realizar")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("clientes");
+
+                    b.Navigation("realizar");
+                });
+
+            modelBuilder.Entity("Gym.Shared.Entidades.Usuarios", b =>
+                {
+                    b.HasOne("Gym.Shared.Entidades.Roles", "rol")
+                        .WithMany("usuarios")
+                        .HasForeignKey("Id_rol")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("rol");
+                });
+
+            modelBuilder.Entity("Gym.Shared.Entidades.Clientes", b =>
+                {
+                    b.Navigation("fichaMedica")
+                        .IsRequired();
+
+                    b.Navigation("inscribir")
+                        .IsRequired();
+
+                    b.Navigation("pagos");
+
+                    b.Navigation("plan")
+                        .IsRequired();
+
+                    b.Navigation("registros");
+                });
+
+            modelBuilder.Entity("Gym.Shared.Entidades.Realizar", b =>
+                {
+                    b.Navigation("registros");
+                });
+
+            modelBuilder.Entity("Gym.Shared.Entidades.Registros", b =>
+                {
+                    b.Navigation("actividades");
+                });
+
+            modelBuilder.Entity("Gym.Shared.Entidades.Roles", b =>
+                {
+                    b.Navigation("usuarios");
+                });
+
+            modelBuilder.Entity("Gym.Shared.Entities.Monitores", b =>
+                {
+                    b.Navigation("actividades");
                 });
 #pragma warning restore 612, 618
         }

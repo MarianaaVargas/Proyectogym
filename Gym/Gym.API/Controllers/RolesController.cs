@@ -22,44 +22,44 @@ namespace Gym.API.Controllers
 
         public async Task<IActionResult> Get()
         {
-            return Ok(await _context.Roles.ToListAsync());
+            return Ok(await _context.Rol.ToListAsync());
         }
 
         [HttpGet("{id:int}")]
 
         public async Task<IActionResult> Get(int id)
         {
-            var Roles = await _context.Roles.FirstOrDefaultAsync(x => x.Id_Rol == id);
-            if (Roles == null)
+            var Rol = await _context.Rol.FirstOrDefaultAsync(x => x.Id_Rol == id);
+            if (Rol == null)
             {
                 return NotFound();
             }
 
-            return Ok(Roles);
+            return Ok(Rol);
 
         }
         [HttpPost]
-        public async Task<IActionResult> post(Roles roles)
+        public async Task<IActionResult> post(Roles rol)
         {
-            _context.Add(roles);
+            _context.Add(rol);
             await _context.SaveChangesAsync();
             return Ok();
 
         }
 
         [HttpPut]
-        public async Task<ActionResult> Put(Roles roles)
+        public async Task<ActionResult> Put(Roles rol)
         {
-            _context.Update(roles);
+            _context.Update(rol);
             await _context.SaveChangesAsync();
-            return Ok(roles);
+            return Ok(rol);
         }
 
         [HttpDelete("{id:int}")]
         public async Task<ActionResult> Delete(int id)
         {
 
-            var filaafectada = await _context.Roles
+            var filaafectada = await _context.Rol
                 .Where(c => c.Id_Rol == id)
                 .ExecuteDeleteAsync();
 
