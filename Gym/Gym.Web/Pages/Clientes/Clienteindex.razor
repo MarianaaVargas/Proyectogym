@@ -1,0 +1,56 @@
+﻿@page "/clientes"
+@using Gym.WEB.Repositories
+@using Gym.Shared.Entidades
+
+@inject IRepository repository
+
+
+<h3>Clientes</h3>
+
+<div class="mb-3">
+    <a class="btn btn-primary" href="/clientes/create">Nuevo cliente</a>
+</div>
+
+<GenericList MyList="clientes">
+
+    <Body>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Clientes</th>
+                    <th></th>
+
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var Clientes in clientes!)
+                {
+                    <tr>
+                        <td>
+                            @Clientes.Nombre
+                        </td>
+                        <td>
+                            <a class="btn btn-warning">Editar</a>
+                            <button class="btn btn-danger">Borrar</button>
+                        </td>
+
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+    </Body>
+
+</GenericList>
+
+@code {
+    public List<Clientes>? clientes { get; set; }
+
+    protected async override Task OnInitializedAsync()
+    {
+        var responseHppt = await repository.Get<List<Clientes>>("/api/clientes");
+        clientes = responseHppt.Response!;
+    }
+}
+
+

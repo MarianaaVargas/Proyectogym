@@ -1,0 +1,33 @@
+﻿
+@using Gym.Shared.Entities
+
+<EditForm Model="Actividades" OnValidSubmit="OnSubmit">
+    <DataAnnotationsValidator />
+    <div class="mb-3">
+        <label>Actividades:</label>
+        <div>
+            <InputText class="form-control" @bind-Value="@Actividades.Nombre" />
+            <ValidationMessage For="@(() => Actividades.Nombre)" />
+        </div>
+    </div>
+
+    <button class="btn btn-primary" type="submit">Guardar Cambios</button>
+    <button class="btn btn-success" @onclick="ReturnAction">Regresar</button>
+</EditForm>
+
+@code {
+
+    [EditorRequired]
+    [Parameter]
+    public Actividades actividades { get; set; } = null;
+
+    [EditorRequired]
+    [Parameter]
+    public EventCallback OnSubmit { get; set; }
+
+    [EditorRequired]
+    [Parameter]
+    public EventCallback ReturnAction { get; set; }
+    
+}
+

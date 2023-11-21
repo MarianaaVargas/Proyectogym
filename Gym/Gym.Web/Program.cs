@@ -1,5 +1,6 @@
+using CurrieTechnologies.Razor.SweetAlert2;
 using Gym.Web;
-
+using Gym.WEB.Repositories;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 
@@ -11,6 +12,8 @@ builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.
 
 builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri("(\"https://localhost:7000/\"") });
 
+builder.Services.AddScoped<IRepository, Repository>();
 
+builder.Services.AddSweetAlert2();
 
 await builder.Build().RunAsync();

@@ -1,0 +1,58 @@
+﻿@page "/monitores"
+@using Gym.WEB.Repositories
+@using Gym.Shared.Entidades
+@using Gym.Shared.Entities
+
+@inject IRepository repository
+
+
+<h3>Monitores</h3>
+
+<div class="mb-3">
+    <a class="btn btn-primary" href="/monitores/create">Nuevo monitor</a>
+</div>
+
+<GenericList MyList="monitores">
+
+    <Body>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Monitores</th>
+                    <th></th>
+
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var Monitores in monitores!)
+                {
+                    <tr>
+                        <td>
+                            @Monitores.Nombre
+                        </td>
+                        <td>
+                            <a class="btn btn-warning">Editar</a>
+                            <button class="btn btn-danger">Borrar</button>
+                        </td>
+
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+    </Body>
+
+</GenericList>
+
+@code {
+    public List<Monitores>? monitores { get; set; }
+
+
+    protected async override Task OnInitializedAsync()
+    {
+        var responseHppt = await repository.Get<List<Monitores>>("/api/monitores");
+        monitores = responseHppt.Response!;
+    }
+}
+
+

@@ -1,0 +1,58 @@
+﻿@page "/pagos"
+@using Gym.WEB.Repositories
+@using Gym.Shared.Entidades
+@using Gym.Shared.Entities
+
+@inject IRepository repository
+
+
+<h3>Pagos</h3>
+
+<div class="mb-3">
+    <a class="btn btn-primary" href="/pagos/create">Nuevo pago</a>
+</div>
+
+<GenericList MyList="pagos">
+
+    <Body>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Pagos</th>
+                    <th></th>
+
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var Pagos in pagos!)
+                {
+                    <tr>
+                        <td>
+                            @Pagos.Id_Pagos
+                        </td>
+                        <td>
+                            <a class="btn btn-warning">Editar</a>
+                            <button class="btn btn-danger">Borrar</button>
+                        </td>
+
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+    </Body>
+
+</GenericList>
+
+@code {
+    public List<Pagos>? pagos { get; set; }
+
+
+    protected async override Task OnInitializedAsync()
+    {
+        var responseHppt = await repository.Get<List<Pagos>>("/api/pagos");
+        pagos = responseHppt.Response!;
+    }
+}
+
+
