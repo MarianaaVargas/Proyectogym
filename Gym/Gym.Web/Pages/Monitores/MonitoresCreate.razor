@@ -1,0 +1,45 @@
+﻿@page "/monitores/create"
+@inject IRepository repository
+@inject NavigationManager navigationManager
+@inject SweetAlertService sweetAlertService
+
+<h3>Crear Monitor</h3>
+
+<MonitoresForm @ref="monitoresForm" monitores="monitores" OnValidSubmit="Create" ReturnAction="Return" />
+
+@code {
+    private Monitores monitores = new();
+
+    private MonitoresForm? monitoresForm;
+
+    private async Task Create()
+    {
+        var httpResponse = await repository.Post("/api/monitores", monitores);
+        if (httpResponse.Error)
+        {
+
+            var messageError = await httpResponse.GetErrorMessage();
+            await sweetAlertService.FireAsync("Error", messageError, SweetAlertIcon.Error);
+
+
+
+        }
+        else
+        {
+
+
+            monitoresForm!.FormPostedSuccessfully = true;
+            navigationManager.NavigateTo("monitores");
+
+        }
+
+
+
+    }
+
+
+    private void Return()
+    {
+        navigationManager.NavigateTo("/monitores");
+    }
+}

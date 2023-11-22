@@ -43,8 +43,26 @@ namespace Gym.API.Controllers
         public async Task<IActionResult> post(Monitores monitores)
         {
             _context.Add(monitores);
+            try { 
             await _context.SaveChangesAsync();
-            return Ok();
+            return Ok(monitores);
+                
+            }
+            catch (DbUpdateException dbUpdateException)
+            {
+                if (dbUpdateException.InnerException!.Message.Contains("duplicate"))
+                {
+                    return BadRequest("Ya existe un monitor con el mismo nombre o Id.");
+                }
+                else
+                {
+                    return BadRequest(dbUpdateException.InnerException.Message);
+                }
+            }
+            catch (Exception exception)
+            {
+                return BadRequest(exception.Message);
+            }
 
         }
 
@@ -52,8 +70,26 @@ namespace Gym.API.Controllers
         public async Task<ActionResult> Put(Monitores monitores)
         {
             _context.Update(monitores);
+            try { 
             await _context.SaveChangesAsync();
             return Ok(monitores);
+               
+            }
+            catch (DbUpdateException dbUpdateException)
+            {
+                if (dbUpdateException.InnerException!.Message.Contains("duplicate"))
+                {
+                    return BadRequest("Ya existe un registro con el mismo nombre o Id.");
+                }
+                else
+                {
+                    return BadRequest(dbUpdateException.InnerException.Message);
+                }
+            }
+            catch (Exception exception)
+            {
+                return BadRequest(exception.Message);
+            }
         }
 
         [HttpDelete("{id:int}")]

@@ -1,0 +1,45 @@
+﻿@page "/fichamedica/create"
+@inject IRepository repository
+@inject NavigationManager navigationManager
+@inject SweetAlertService sweetAlertService
+
+<h3>Crear FichaMedica</h3>
+
+<FichaMedicaForm @ref="fichaMedicaForm" fichamedica="fichamedica" OnValidSubmit="Create" ReturnAction="Return" />
+
+@code {
+    private FichaMedica fichamedica = new();
+
+    private FichaMedicaForm? fichaMedicaForm;
+
+    private async Task Create()
+    {
+        var httpResponse = await repository.Post("/api/fichamedica", fichamedica);
+        if (httpResponse.Error)
+        {
+
+            var messageError = await httpResponse.GetErrorMessage();
+            await sweetAlertService.FireAsync("Error", messageError, SweetAlertIcon.Error);
+
+
+
+        }
+        else
+        {
+
+
+            fichaMedicaForm!.FormPostedSuccessfully = true;
+            navigationManager.NavigateTo("fichamedica");
+
+        }
+
+
+
+    }
+
+
+    private void Return()
+    {
+        navigationManager.NavigateTo("/fichamedica");
+    }
+}

@@ -3,9 +3,15 @@
 @using Gym.Shared.Entidades
 
 @inject IRepository repository
+@inject NavigationManager navigationManager
+@inject SweetAlertService swal
 
 
 <h3>FichaMedica</h3>
+<Pagination CurrentPage="currentPage"
+            TotalPages="totalPages"
+            SelectedPage="SelectedPage" />
+
 
 <div class="mb-3">
     <a class="btn btn-primary" href="/fichamedica/create">Nueva FichaMedica</a>
@@ -18,7 +24,9 @@
             <thead>
                 <tr>
                     <th>FichaMedica</th>
-                    <th></th>
+                    <th style="width:220px">Estados / Departamentos</th>
+                    <th style="width:280px"></th>
+
 
                 </tr>
             </thead>
@@ -30,8 +38,8 @@
                             @FichaMedica.Id_Ficha
                         </td>
                         <td>
-                            <a class="btn btn-warning">Editar</a>
-                            <button class="btn btn-danger">Borrar</button>
+                            <a href="/fichamedica/edit/@FichaMedica.Id_Ficha" class="btn btn-warning">Editar</a>
+                            <button class="btn btn-danger" @onclick=@(() => Delete(FichaMedica))>Borrar</button>
                         </td>
 
                     </tr>
@@ -45,12 +53,74 @@
 
 @code {
     public List<FichaMedica>? fichaMedica { get; set; }
+    private int currentPage = 1;
+    private int totalPages;
 
     protected async override Task OnInitializedAsync()
     {
-        var responseHppt = await repository.Get<List<FichaMedica>>("/api/ficha medica");
+        await LoadAsync();
+
+    }
+    private async Task SelectedPage(int page)
+    {
+        currentPage = page;
+        await LoadAsync(page);
+    }
+
+    private async Task LoadAsync(int page = 1)
+    {
+        string url1 = $"api/fichamedica?page={page}";
+        string url2 = $"api/fichamedica/totalPages";
+
+        var responseHppt = await repository.Get<List<FichaMedica>>(url1);
+        var responseHppt2 = await repository.Get<int>(url2);
         fichaMedica = responseHppt.Response!;
+        totalPages = responseHppt2.Response!;
+    }
+
+
+    private async Task Delete(FichaMedica fichaMedica)
+    {
+        var result = await swal.FireAsync(new SweetAlertOptions
+            {
+                Title = "Confirmación",
+                Text = "¿Esta seguro que quieres borrar el registro?",
+                Icon = SweetAlertIcon.Question,
+                ShowCancelButton = true
+            });
+
+        var confirm = string.IsNullOrEmpty(result.Value);
+
+        if (confirm)
+        {
+            return;
+        }
+
+        var responseHTTP = await repository.Delete($"api/fichamedica/{fichaMedica.Id_Ficha}");
+
+        if (responseHTTP.Error)
+        {
+            if (responseHTTP.HttpResponseMessage.StatusCode == System.Net.HttpStatusCode.NotFound)
+            {
+                navigationManager.NavigateTo("/");
+            }
+            else
+            {
+                var mensajeError = await responseHTTP.GetErrorMessage();
+                await swal.FireAsync("Error", mensajeError, SweetAlertIcon.Error);
+            }
+        }
+        else
+        {
+            await LoadAsync();
+        }
     }
 }
+
+
+
+
+
+
 
 

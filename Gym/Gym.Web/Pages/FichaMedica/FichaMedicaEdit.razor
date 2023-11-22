@@ -1,0 +1,66 @@
+﻿@page "/fichamedica/edit/{Id:int}"
+@inject NavigationManager navigationManager
+@inject IRepository repository
+@inject SweetAlertService swal
+
+<h3>Editar FichaMedica</h3>
+
+@if (fichamedica is null)
+{
+    <p>Cargando...</p>
+}
+else
+{
+    <FichaMedicaForm @ref="fichamedicaForm" fichamedica="fichamedica" OnValidSubmit="Edit" ReturnAction="Return" />
+}
+
+@code {
+    private FichaMedica? fichamedica;
+    private FichaMedicaForm? fichamedicaForm;
+
+    [Parameter]
+    public int Id { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        var responseHTTP = await repository.Get<FichaMedica>($"api/fichamedica/{Id}");
+
+        if (responseHTTP.Error)
+        {
+            if (responseHTTP.HttpResponseMessage.StatusCode == System.Net.HttpStatusCode.NotFound)
+            {
+                navigationManager.NavigateTo("fichamedica");
+            }
+            else
+            {
+                var messageError = await responseHTTP.GetErrorMessage();
+                await swal.FireAsync("Error", messageError, SweetAlertIcon.Error);
+            }
+        }
+        else
+        {
+            fichamedica = responseHTTP.Response;
+        }
+    }
+
+    private async Task Edit()
+    {
+        var responseHTTP = await repository.Put("api/fichamedica", fichamedica);
+
+        if (responseHTTP.Error)
+        {
+            var mensajeError = await responseHTTP.GetErrorMessage();
+            await swal.FireAsync("Error", mensajeError, SweetAlertIcon.Error);
+        }
+        else
+        {
+            fichamedicaForm!.FormPostedSuccessfully = true;
+            navigationManager.NavigateTo("fichamedica");
+        }
+    }
+
+    private void Return()
+    {
+        navigationManager.NavigateTo("fichamedica");
+    }
+}

@@ -1,0 +1,45 @@
+﻿@page "/palentrenamiento/create"
+@inject IRepository repository
+@inject NavigationManager navigationManager
+@inject SweetAlertService sweetAlertService
+
+<h3>Crear PlanEntrenamiento</h3>
+
+<PlanEntrenamientoForm @ref="planentrenamientoForm" planEntrenamiento="planEntrenamiento" OnValidSubmit="Create" ReturnAction="Return" />
+
+@code {
+    private PlanEntrenamiento planEntrenamiento = new();
+
+    private PlanEntrenamientoForm? planentrenamientoForm;
+
+    private async Task Create()
+    {
+        var httpResponse = await repository.Post("/api/plaentrenamiento", planEntrenamiento);
+        if (httpResponse.Error)
+        {
+
+            var messageError = await httpResponse.GetErrorMessage();
+            await sweetAlertService.FireAsync("Error", messageError, SweetAlertIcon.Error);
+
+
+
+        }
+        else
+        {
+
+
+            planentrenamientoForm!.FormPostedSuccessfully = true;
+            navigationManager.NavigateTo("planentrenamiento");
+
+        }
+
+
+
+    }
+
+
+    private void Return()
+    {
+        navigationManager.NavigateTo("/planentrenamiento");
+    }
+}

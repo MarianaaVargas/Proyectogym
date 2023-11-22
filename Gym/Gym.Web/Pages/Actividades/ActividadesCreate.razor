@@ -1,0 +1,44 @@
+﻿@page "/actividades/create"
+@inject IRepository repository
+@inject NavigationManager navigationManager
+@inject SweetAlertService sweetAlertService
+
+<h3>Crear Actividad</h3>
+
+<ActividadesForm @ref="actividadesForm" actividades="actividades" OnValidSubmit="Create" ReturnAction="Return" />
+
+@code {
+    private Actividades actividades = new();
+
+    private ActividadesForm? actividadesForm;
+
+    private async Task Create()
+    {
+        var httpResponse = await repository.Post("/api/actividades", actividades);
+        if (httpResponse.Error)
+        {
+
+            var messageError = await httpResponse.GetErrorMessage();
+            await sweetAlertService.FireAsync("Error", messageError, SweetAlertIcon.Error);
+
+            
+
+        }else
+        {
+
+
+            actividadesForm!.FormPostedSuccessfully = true;
+            navigationManager.NavigateTo("actividades");
+
+        }
+
+
+
+    }
+
+
+    private void Return()
+    {
+        navigationManager.NavigateTo("/actividades");
+    }
+}

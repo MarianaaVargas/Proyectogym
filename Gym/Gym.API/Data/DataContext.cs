@@ -16,7 +16,7 @@ namespace Gym.API.Data
 
         }
 
-        public DbSet<Actividades> Actividades { get; set; }
+        public DbSet<Actividades> Inscribir { get; set; }
         public DbSet <Clientes> Clientes { get; set; }
         public DbSet <Monitores> Monitores { get; set; }
         public DbSet <FichaMedica> FichaMedica { get; set; }
@@ -27,8 +27,7 @@ namespace Gym.API.Data
         public DbSet <Registros> registros { get; set; }
         public DbSet <Roles> Rol { get; set; }
         public DbSet <Usuarios> usuarios { get; set; }
-
-        
+        public object Actividades { get; internal set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder options)
         {
@@ -42,15 +41,23 @@ namespace Gym.API.Data
         {
             base.OnModelCreating(modelBuilder);
             modelBuilder.Entity<Actividades>().HasKey(x => x.Id_Actividad);
+            modelBuilder.Entity<Actividades>().Property(f => f.Id_Actividad).ValueGeneratedOnAdd();
             modelBuilder.Entity<Clientes>().HasKey(x => x.Id_Cliente);
-            modelBuilder.Entity<Monitores>().HasKey(x => x.Id_Monitor);
             modelBuilder.Entity<Clientes>().Property(f => f.Id_Cliente).ValueGeneratedOnAdd();
+            modelBuilder.Entity<Monitores>().HasKey(x => x.Id_Monitor);
+            modelBuilder.Entity<Monitores>().Property(f => f.Id_Monitor).ValueGeneratedOnAdd();
             modelBuilder.Entity<FichaMedica>().HasKey(x => x.Id_Ficha);
-            modelBuilder.Entity<Inscribir>().HasKey(x => x.Id);
+            modelBuilder.Entity<FichaMedica>().Property(f => f.Id_Ficha).ValueGeneratedOnAdd();
+            modelBuilder.Entity<Inscribir>().HasKey(x => x.Id_Inscripcion);
+            modelBuilder.Entity<Inscribir>().Property(f => f.Id_Inscripcion).ValueGeneratedOnAdd();
             modelBuilder.Entity<Pagos>().HasKey(x => x.Id_Pagos);
+            modelBuilder.Entity<Pagos>().Property(f => f.Id_Pagos).ValueGeneratedOnAdd();
             modelBuilder.Entity<PlanEntrenamiento>().HasKey(x => x.Id_Plan);
-            modelBuilder.Entity<Realizar>().HasKey(x => x.Id);
+            modelBuilder.Entity<PlanEntrenamiento>().Property(f => f.Id_Plan).ValueGeneratedOnAdd();
+            modelBuilder.Entity<Realizar>().HasKey(x => x.Id_Realizar);
+            modelBuilder.Entity<Realizar>().Property(f => f.Id_Realizar).ValueGeneratedOnAdd();
             modelBuilder.Entity<Registros>().HasKey(x => x.Id_Registro);
+            modelBuilder.Entity<Registros>().Property(f => f.Id_Registro).ValueGeneratedOnAdd();
             modelBuilder.Entity<Roles>().HasKey(x => x.Id_Rol);
             modelBuilder.Entity<Usuarios>().HasKey(x => x.Id_Usuario);
             modelBuilder.Entity<Usuarios>().Property(f => f.Id_Usuario).ValueGeneratedOnAdd();

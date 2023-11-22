@@ -42,8 +42,26 @@ namespace Gym.API.Controllers
         public async Task<IActionResult> post(Roles rol)
         {
             _context.Add(rol);
+            try { 
             await _context.SaveChangesAsync();
-            return Ok();
+            return Ok(rol);
+                
+            }
+            catch (DbUpdateException dbUpdateException)
+            {
+                if (dbUpdateException.InnerException!.Message.Contains("duplicate"))
+                {
+                    return BadRequest("Ya existe un registro con el mismo Id.");
+                }
+                else
+                {
+                    return BadRequest(dbUpdateException.InnerException.Message);
+                }
+            }
+            catch (Exception exception)
+            {
+                return BadRequest(exception.Message);
+            }
 
         }
 
@@ -51,8 +69,26 @@ namespace Gym.API.Controllers
         public async Task<ActionResult> Put(Roles rol)
         {
             _context.Update(rol);
+            try { 
             await _context.SaveChangesAsync();
             return Ok(rol);
+                
+            }
+            catch (DbUpdateException dbUpdateException)
+            {
+                if (dbUpdateException.InnerException!.Message.Contains("duplicate"))
+                {
+                    return BadRequest("Ya existe un registro con el mismo Id.");
+                }
+                else
+                {
+                    return BadRequest(dbUpdateException.InnerException.Message);
+                }
+            }
+            catch (Exception exception)
+            {
+                return BadRequest(exception.Message);
+            }
         }
 
         [HttpDelete("{id:int}")]

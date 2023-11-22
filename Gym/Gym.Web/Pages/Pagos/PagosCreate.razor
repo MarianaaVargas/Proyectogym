@@ -1,0 +1,45 @@
+﻿@page "/pagos/create"
+@inject IRepository repository
+@inject NavigationManager navigationManager
+@inject SweetAlertService sweetAlertService
+
+<h3>Crear Pagos</h3>
+
+<PagosForm @ref="pagosForm" pagos="pagos" OnValidSubmit="Create" ReturnAction="Return" />
+
+@code {
+    private Pagos pagos = new();
+
+    private PagosForm? pagosForm;
+
+    private async Task Create()
+    {
+        var httpResponse = await repository.Post("/api/pagos", pagos);
+        if (httpResponse.Error)
+        {
+
+            var messageError = await httpResponse.GetErrorMessage();
+            await sweetAlertService.FireAsync("Error", messageError, SweetAlertIcon.Error);
+
+
+
+        }
+        else
+        {
+
+
+            pagosForm!.FormPostedSuccessfully = true;
+            navigationManager.NavigateTo("pagos");
+
+        }
+
+
+
+    }
+
+
+    private void Return()
+    {
+        navigationManager.NavigateTo("/pagos");
+    }
+}

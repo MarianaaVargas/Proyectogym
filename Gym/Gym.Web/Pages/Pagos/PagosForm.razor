@@ -1,5 +1,4 @@
-﻿
-@using Gym.Shared.Entities
+﻿@using Gym.Shared.Entities
 
 @inject SweetAlertService swal
 
@@ -9,10 +8,10 @@
 
     <DataAnnotationsValidator />
     <div class="mb-3">
-        <label>Actividades:</label>
+        <label>Pagos:</label>
         <div>
-            <InputText class="form-control" @bind-Value="@Actividades.Nombre" />
-            <ValidationMessage For="@(() => Actividades.Nombre)" />
+            <InputText class="form-control" @bind-Value="@Pagos.Id_Pagos" />
+            <ValidationMessage For="@(() => Pagos.Id_Pagos)" />
         </div>
     </div>
 
@@ -21,17 +20,18 @@
 </EditForm>
 
 @code {
+
     private EditContext editContext = null!;
 
     protected override void OnInitialized()
     {
-        editContext = new(Actividades);
+        editContext = new(Pagos);
     }
 
 
     [EditorRequired]
     [Parameter]
-    public Actividades actividades { get; set; } = null;
+    public Pagos pagos { get; set; } = null;
 
     [EditorRequired]
     [Parameter]
@@ -76,6 +76,10 @@
     }
 }
 
-    
 
+
+
+
+
+}
 

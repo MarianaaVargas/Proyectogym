@@ -3,9 +3,14 @@
 @using Gym.Shared.Entidades
 
 @inject IRepository repository
+@inject NavigationManager navigationManager
+@inject SweetAlertService swal
 
 
 <h3>Clientes</h3>
+<Pagination CurrentPage="currentPage"
+            TotalPages="totalPages"
+            SelectedPage="SelectedPage" />
 
 <div class="mb-3">
     <a class="btn btn-primary" href="/clientes/create">Nuevo cliente</a>
@@ -18,7 +23,9 @@
             <thead>
                 <tr>
                     <th>Clientes</th>
-                    <th></th>
+                    <th style="width:220px">Estados / Departamentos</th>
+                    <th style="width:280px"></th>
+
 
                 </tr>
             </thead>
@@ -30,8 +37,8 @@
                             @Clientes.Nombre
                         </td>
                         <td>
-                            <a class="btn btn-warning">Editar</a>
-                            <button class="btn btn-danger">Borrar</button>
+                            <a href="/clientes/edit/@Clientes.Id_Cliente" class="btn btn-warning">Editar</a>
+                            <button class="btn btn-danger" @onclick=@(() => Delete(Clientes))>Borrar</button>
                         </td>
 
                     </tr>
@@ -45,12 +52,73 @@
 
 @code {
     public List<Clientes>? clientes { get; set; }
+    private int currentPage = 1;
+    private int totalPages;
 
     protected async override Task OnInitializedAsync()
     {
-        var responseHppt = await repository.Get<List<Clientes>>("/api/clientes");
-        clientes = responseHppt.Response!;
+        await LoadAsync();
+
     }
+    private async Task SelectedPage(int page)
+    {
+        currentPage = page;
+        await LoadAsync(page);
+    }
+
+
+    private async Task LoadAsync(int page = 1)
+    {
+        string url1 = $"api/clientes?page={page}";
+        string url2 = $"api/clientes/totalPages";
+
+        var responseHppt = await repository.Get<List<Clientes>>(url1);
+        var responseHppt2 = await repository.Get<int>(url2);
+        clientes = responseHppt.Response!;
+        totalPages = responseHppt2.Response!;
+    }
+
+    private async Task Delete(Clientes clientes)
+    {
+        var result = await swal.FireAsync(new SweetAlertOptions
+            {
+                Title = "Confirmación",
+                Text = "¿Esta seguro que quieres borrar el registro?",
+                Icon = SweetAlertIcon.Question,
+                ShowCancelButton = true
+            });
+
+        var confirm = string.IsNullOrEmpty(result.Value);
+
+        if (confirm)
+        {
+            return;
+        }
+
+        var responseHTTP = await repository.Delete($"api/clientes/{clientes.Id_Cliente}");
+
+        if (responseHTTP.Error)
+        {
+            if (responseHTTP.HttpResponseMessage.StatusCode == System.Net.HttpStatusCode.NotFound)
+            {
+                navigationManager.NavigateTo("/");
+            }
+            else
+            {
+                var mensajeError = await responseHTTP.GetErrorMessage();
+                await swal.FireAsync("Error", mensajeError, SweetAlertIcon.Error);
+            }
+        }
+        else
+        {
+            await LoadAsync();
+        }
+    }
+}
+
+}
+
+
 }
 
 

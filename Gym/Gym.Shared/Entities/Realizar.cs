@@ -13,7 +13,7 @@ namespace Gym.Shared.Entidades
 
         [MaxLength(10, ErrorMessage = "El campo no debe tener mas de 10 caracteres")]
         [Required(ErrorMessage = "El campo es obligatorio")]
-        public int Id { get; set; }
+        public int Id_Realizar { get; set; }
 
         [Display(Name = "Fecha de realizacion de las actividades")]
         [MaxLength(45, ErrorMessage = "El campo no debe tener mas de 45 caracteres")]

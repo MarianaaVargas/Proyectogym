@@ -29,7 +29,7 @@ namespace Gym.API.Controllers
 
         public async Task<IActionResult> Get(int id)
         {
-            var Realizar = await _context.realizar.FirstOrDefaultAsync(x => x.Id == id);
+            var Realizar = await _context.realizar.FirstOrDefaultAsync(x => x.Id_Realizar == id);
             if (Realizar == null)
             {
                 return NotFound();
@@ -42,8 +42,26 @@ namespace Gym.API.Controllers
         public async Task<IActionResult> post(Realizar realizar)
         {
             _context.Add(realizar);
+            try { 
             await _context.SaveChangesAsync();
-            return Ok();
+            return Ok(realizar);
+                
+            }
+            catch (DbUpdateException dbUpdateException)
+            {
+                if (dbUpdateException.InnerException!.Message.Contains("duplicate"))
+                {
+                    return BadRequest("Ya existe un registro con el mismo Id.");
+                }
+                else
+                {
+                    return BadRequest(dbUpdateException.InnerException.Message);
+                }
+            }
+            catch (Exception exception)
+            {
+                return BadRequest(exception.Message);
+            }
 
         }
 
@@ -51,8 +69,26 @@ namespace Gym.API.Controllers
         public async Task<ActionResult> Put(Realizar realizar)
         {
             _context.Update(realizar);
+            try { 
             await _context.SaveChangesAsync();
             return Ok(realizar);
+                
+            }
+            catch (DbUpdateException dbUpdateException)
+            {
+                if (dbUpdateException.InnerException!.Message.Contains("duplicate"))
+                {
+                    return BadRequest("Ya existe un registro con el mismo Id.");
+                }
+                else
+                {
+                    return BadRequest(dbUpdateException.InnerException.Message);
+                }
+            }
+            catch (Exception exception)
+            {
+                return BadRequest(exception.Message);
+            }
         }
 
         [HttpDelete("{id:int}")]
@@ -60,7 +96,7 @@ namespace Gym.API.Controllers
         {
 
             var filaafectada = await _context.realizar
-                .Where(c => c.Id == id)
+                .Where(c => c.Id_Realizar == id)
                 .ExecuteDeleteAsync();
 
             if (filaafectada == 0)

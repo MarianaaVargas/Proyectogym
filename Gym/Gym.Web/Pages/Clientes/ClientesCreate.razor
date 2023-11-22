@@ -1,0 +1,45 @@
+﻿@page "/clientes/create"
+@inject IRepository repository
+@inject NavigationManager navigationManager
+@inject SweetAlertService sweetAlertService
+
+<h3>Crear Cliente</h3>
+
+<ClientesForm @ref="clientesForm" clientes ="clientes" OnValidSubmit="Create" ReturnAction="Return" />
+
+@code {
+    private Clientes clientes = new();
+
+    private ClientesForm? clientesForm;
+
+    private async Task Create()
+    {
+        var httpResponse = await repository.Post("/api/clientes", clientes);
+        if (httpResponse.Error)
+        {
+
+            var messageError = await httpResponse.GetErrorMessage();
+            await sweetAlertService.FireAsync("Error", messageError, SweetAlertIcon.Error);
+
+
+
+        }
+        else
+        {
+
+
+            clientesForm!.FormPostedSuccessfully = true;
+            navigationManager.NavigateTo("clientes");
+
+        }
+
+
+
+    }
+
+
+    private void Return()
+    {
+        navigationManager.NavigateTo("/clientes");
+    }
+}

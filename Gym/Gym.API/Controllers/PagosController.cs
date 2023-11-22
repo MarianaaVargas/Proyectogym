@@ -42,8 +42,26 @@ namespace Gym.API.Controllers
         public async Task<IActionResult> post(Pagos pagos)
         {
             _context.Add(pagos);
+            try { 
             await _context.SaveChangesAsync();
-            return Ok();
+            return Ok(pagos);
+                
+            }
+            catch (DbUpdateException dbUpdateException)
+            {
+                if (dbUpdateException.InnerException!.Message.Contains("duplicate"))
+                {
+                    return BadRequest("Ya existe un pago con el mismo Id.");
+                }
+                else
+                {
+                    return BadRequest(dbUpdateException.InnerException.Message);
+                }
+            }
+            catch (Exception exception)
+            {
+                return BadRequest(exception.Message);
+            }
 
         }
 
@@ -51,8 +69,26 @@ namespace Gym.API.Controllers
         public async Task<ActionResult> Put(Pagos pagos)
         {
             _context.Update(pagos);
+            try { 
             await _context.SaveChangesAsync();
             return Ok(pagos);
+                
+            }
+            catch (DbUpdateException dbUpdateException)
+            {
+                if (dbUpdateException.InnerException!.Message.Contains("duplicate"))
+                {
+                    return BadRequest("Ya existe un registro con el mismo Id.");
+                }
+                else
+                {
+                    return BadRequest(dbUpdateException.InnerException.Message);
+                }
+            }
+            catch (Exception exception)
+            {
+                return BadRequest(exception.Message);
+            }
         }
 
         [HttpDelete("{id:int}")]
