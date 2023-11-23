@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Gym.Shared.Entidades;
+using Gym.Shared.DTOs;
 
 
 namespace Gym.API.Controllers
@@ -23,6 +24,20 @@ namespace Gym.API.Controllers
         public async Task<IActionResult> Get()
         {
             return Ok(await _context.Pagos.ToListAsync());
+        }
+        [HttpGet("totalPages")]
+        public async Task<ActionResult> GetPages([FromQuery] PaginationDTO pagination)
+        {
+            var queryable = _context.Pagos.AsQueryable();
+
+            if (!string.IsNullOrWhiteSpace(pagination.Filter))
+            {
+                queryable = queryable.Where(x => x.Fecha.ToLower().Contains(pagination.Filter.ToLower()));
+            }
+
+            double count = await queryable.CountAsync();
+            double totalPages = Math.Ceiling(count / pagination.RecordsNumber);
+            return Ok(totalPages);
         }
 
         [HttpGet("{id:int}")]

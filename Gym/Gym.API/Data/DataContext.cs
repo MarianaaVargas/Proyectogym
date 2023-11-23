@@ -16,7 +16,7 @@ namespace Gym.API.Data
 
         }
 
-        public DbSet<Actividades> Inscribir { get; set; }
+        public DbSet<Actividades> Actividades { get; set; }
         public DbSet <Clientes> Clientes { get; set; }
         public DbSet <Monitores> Monitores { get; set; }
         public DbSet <FichaMedica> FichaMedica { get; set; }
@@ -27,7 +27,7 @@ namespace Gym.API.Data
         public DbSet <Registros> registros { get; set; }
         public DbSet <Roles> Rol { get; set; }
         public DbSet <Usuarios> usuarios { get; set; }
-        public object Actividades { get; internal set; }
+     
 
         protected override void OnConfiguring(DbContextOptionsBuilder options)
         {
