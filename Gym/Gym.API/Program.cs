@@ -1,5 +1,5 @@
 using Gym.API.Data;
-
+using Market.API.Data;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -14,6 +14,8 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<DataContext>(x => x.UseSqlServer("name=DefaultConnection"));
 
 builder.Services.AddTransient<SeedDb>();
+
+
 
 var app = builder.Build();
 SeedData(app);

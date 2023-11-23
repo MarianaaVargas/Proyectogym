@@ -1,7 +1,9 @@
 ﻿using Gym.Shared.Entidades;
 using Gym.Shared.Entities;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Win32;
+using Gym.API.Data;
 
 namespace Gym.API.Data
 
@@ -27,7 +29,9 @@ namespace Gym.API.Data
         public DbSet <Registros> registros { get; set; }
         public DbSet <Roles> Rol { get; set; }
         public DbSet <Usuarios> usuarios { get; set; }
-     
+
+        
+
 
         protected override void OnConfiguring(DbContextOptionsBuilder options)
         {
@@ -36,6 +40,9 @@ namespace Gym.API.Data
                 options.UseSqlServer("A FALLBACK CONNECTION STRING");
             }
         }
+
+    
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
