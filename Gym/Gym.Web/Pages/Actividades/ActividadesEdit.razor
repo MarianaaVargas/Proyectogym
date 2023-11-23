@@ -12,12 +12,16 @@
 else
 {
     <ActividadesForm @ref="actividadesForm" actividades="actividades" OnValidSubmit="Edit" ReturnAction="Return" />
+    <Pagination CurrentPage="currentPage"
+                TotalPages="totalPages"
+                SelectedPage="SelectedPage" />
 }
 
 @code {
     private Actividades? actividades;
     private ActividadesForm? actividadesForm;
-
+    private int currentPage = 1;
+    private int totalPages;
     [Parameter]
     public int Id { get; set; }
 
@@ -41,6 +45,20 @@ else
         {
             actividades = responseHTTP.Response;
         }
+    }
+
+    private async Task SelectedPage(int page)
+    {
+        currentPage = page;
+        await LoadAsync(page);
+    }
+    private async Task LoadAsync(int page = 1)
+    {
+
+        var responseHppt = await repository.Get<Actividades>($"api/actividades/{Id}");
+
+        actividades = responseHppt.Response;
+        
     }
 
     private async Task Edit()

@@ -12,11 +12,16 @@
 else
 {
     <MonitoresForm @ref="monitoresForm" monitores="monitores" OnValidSubmit="Edit" ReturnAction="Return" />
+    <Pagination CurrentPage="currentPage"
+                TotalPages="totalPages"
+                SelectedPage="SelectedPage" />
 }
 
 @code {
     private Monitores? monitores;
     private MonitoresForm? monitoresForm;
+    private int currentPage = 1;
+    private int totalPages;
 
     [Parameter]
     public int Id { get; set; }
@@ -41,6 +46,20 @@ else
         {
             monitores = responseHTTP.Response;
         }
+    }
+    private async Task SelectedPage(int page)
+    {
+        currentPage = page;
+        await LoadAsync(page);
+    }
+    private async Task LoadAsync(int page = 1)
+    {
+
+        var responseHTTP = await repository.Get<Monitores>($"api/monitores/{Id}");
+        monitores = responseHTTP.Response;
+
+
+
     }
 
     private async Task Edit()

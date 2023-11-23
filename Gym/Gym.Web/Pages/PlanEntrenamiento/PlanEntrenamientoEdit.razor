@@ -12,12 +12,16 @@
 else
 {
     <PlanEntrenamientoForm @ref="planentrenamientoForm" planEntrenamiento="planEntrenamiento" OnValidSubmit="Edit" ReturnAction="Return" />
+    <Pagination CurrentPage="currentPage"
+                TotalPages="totalPages"
+                SelectedPage="SelectedPage" />
 }
 
 @code {
     private PlanEntrenamiento? planEntrenamiento;
     private PlanEntrenamientoForm? planentrenamientoForm;
-
+    private int currentPage = 1;
+    private int totalPages;
     [Parameter]
     public int Id { get; set; }
 
@@ -42,6 +46,21 @@ else
             planEntrenamiento = responseHTTP.Response;
         }
     }
+    private async Task SelectedPage(int page)
+    {
+        currentPage = page;
+        await LoadAsync(page);
+    }
+    private async Task LoadAsync(int page = 1)
+    {
+
+        var responseHTTP = await repository.Get<PlanEntrenamiento>($"api/palnentrenamiento/{Id}");
+        planEntrenamiento = responseHTTP.Response;
+
+
+
+    }
+
 
     private async Task Edit()
     {

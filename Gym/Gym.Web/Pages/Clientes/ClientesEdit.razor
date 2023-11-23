@@ -12,12 +12,16 @@
 else
 {
     <ClientesForm @ref="clientesForm" clientes="clientes" OnValidSubmit="Edit" ReturnAction="Return" />
+    <Pagination CurrentPage="currentPage"
+                TotalPages="totalPages"
+                SelectedPage="SelectedPage" />
 }
 
 @code {
     private Clientes? clientes;
     private ClientesForm? clientesForm;
-
+    private int currentPage = 1;
+    private int totalPages;
     [Parameter]
     public int Id { get; set; }
 
@@ -41,6 +45,20 @@ else
         {
             clientes = responseHTTP.Response;
         }
+    }
+    private async Task SelectedPage(int page)
+    {
+        currentPage = page;
+        await LoadAsync(page);
+    }
+    private async Task LoadAsync(int page = 1)
+    {
+
+        var responseHTTP = await repository.Get<Clientes>($"api/clientes/{Id}");
+        clientes = responseHTTP.Response;
+
+     
+
     }
 
     private async Task Edit()

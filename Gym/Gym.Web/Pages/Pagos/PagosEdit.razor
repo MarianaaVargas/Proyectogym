@@ -12,12 +12,16 @@
 else
 {
     <PagosForm @ref="pagosForm" pagos="pagos" OnValidSubmit="Edit" ReturnAction="Return" />
+    <Pagination CurrentPage="currentPage"
+                TotalPages="totalPages"
+                SelectedPage="SelectedPage" />
 }
 
 @code {
     private Pagos? pagos;
     private PagosForm? pagosForm;
-
+    private int currentPage = 1;
+    private int totalPages;
     [Parameter]
     public int Id { get; set; }
 
@@ -42,7 +46,20 @@ else
             pagos = responseHTTP.Response;
         }
     }
+    private async Task SelectedPage(int page)
+    {
+        currentPage = page;
+        await LoadAsync(page);
+    }
+    private async Task LoadAsync(int page = 1)
+    {
 
+        var responseHTTP = await repository.Get<Pagos>($"api/pagos/{Id}");
+        pagos = responseHTTP.Response;
+
+
+
+    }
     private async Task Edit()
     {
         var responseHTTP = await repository.Put("api/pagos", pagos);
